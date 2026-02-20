@@ -1,6 +1,8 @@
-package com.br.teste.model;
+package com.br.teste.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -13,22 +15,22 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Associado {
+public class Associados {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String nome;
     @CPF
-    @Column(unique = true)
+    @Column(nullable = false,unique = true)
     private String cpf;
+    @Email
     @Column(nullable = false,unique = true)
     private String email;
     @Column(nullable = false)
     private String telefone;
-    @Column(name = "data_adesao",nullable = false)
-    private LocalDate dataAdesao;
     @Column(nullable = false)
+    @PastOrPresent
+    private LocalDate dataAdesao;
     private boolean ativo;
-
 }

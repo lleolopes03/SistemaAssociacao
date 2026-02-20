@@ -1,4 +1,4 @@
-package com.br.teste.dto;
+package com.br.teste.models.dtos;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -8,13 +8,14 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class AssociadoRequestDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class AssociadosRequestDto {
     @NotBlank
     private String nome;
     @CPF
+    @NotBlank
     private String cpf;
     @NotBlank
     @Email
@@ -22,8 +23,8 @@ public class AssociadoRequestDto {
     @NotBlank
     @Pattern(regexp = "\\d{10,11}",message = "telefone invalido")
     private String telefone;
-    @NotNull(message = "data adesão é obrigatória")
-    @PastOrPresent(message = "Data de adesão não pode ser futura")
+    @PastOrPresent(message = "Data não pode ser no futuro")
+    @NotNull(message = "Obrigatório passar a data da adesão")
     private LocalDate dataAdesao;
 
 }

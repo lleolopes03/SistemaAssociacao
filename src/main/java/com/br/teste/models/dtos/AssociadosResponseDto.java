@@ -1,14 +1,15 @@
-package com.br.teste.dto;
+package com.br.teste.models.dtos;
 
 import lombok.*;
 
 import java.time.LocalDate;
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class AssociadoResponseDto {
+public class AssociadosResponseDto {
     private Long id;
     private String nome;
     private String cpf;
@@ -16,4 +17,5 @@ public class AssociadoResponseDto {
     private String telefone;
     private LocalDate dataAdesao;
     private boolean ativo;
+
 }
