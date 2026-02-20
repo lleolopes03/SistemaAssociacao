@@ -27,7 +27,7 @@ public class AssociadosController {
         AssociadosResponseDto responseDto=services.buscarPorId(id);
         return ResponseEntity.ok(responseDto);
     }
-    @GetMapping("/cpf{cpf}")
+    @GetMapping("/cpf/{cpf}")
     public ResponseEntity<AssociadosResponseDto>buscarPorCpf(@PathVariable String cpf){
         AssociadosResponseDto responseDto=services.buscarPorCpf(cpf);
         return ResponseEntity.ok(responseDto);
@@ -38,7 +38,7 @@ public class AssociadosController {
         return ResponseEntity.ok(responseDto);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<AssociadosResponseDto>editarAssociados(@PathVariable Long id,@RequestBody AssociadosRequestDto dto){
+    public ResponseEntity<AssociadosResponseDto>editarAssociados(@PathVariable Long id,@RequestBody @Valid AssociadosRequestDto dto){
         AssociadosResponseDto responseDto=services.editarAssociado(id,dto);
         return ResponseEntity.ok(responseDto);
     }

@@ -1,5 +1,6 @@
 package com.br.teste.service;
 
+import com.br.teste.exception.CpfDuplicadoException;
 import com.br.teste.exception.CpfJaCadastrado;
 import com.br.teste.exception.CpfNaoEncontrado;
 import com.br.teste.exception.IdNaoEncontrado;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,21 +28,21 @@ public class AssociadosServices {
             throw new CpfJaCadastrado("Associado já cadastrado");
         }
         Associados associados=mapper.toEntity(dto);
-        return mapper.toRespondeDto(repository.save(associados));
+        return mapper.toResponseDto(repository.save(associados));
     }
 
     public AssociadosResponseDto buscarPorId(Long id){
         Associados associados=repository.findById(id).orElseThrow(()->new IdNaoEncontrado("Associado não encontrado"));
-        return mapper.toRespondeDto(associados);
+        return mapper.toResponseDto(associados);
 
     }
     public AssociadosResponseDto buscarPorCpf(String cpf){
         Associados associados=repository.findByCpf(cpf).orElseThrow(()->new CpfNaoEncontrado("Associado com cpf não encontrado"));
-        return mapper.toRespondeDto(associados);
+        return mapper.toResponseDto(associados);
     }
     public List<AssociadosResponseDto>buscarTodos(){
         return repository.findAll().stream()
-                .map(mapper::toRespondeDto)
+                .map(mapper::toResponseDto)
                 .toList();
 
     }
@@ -53,11 +55,25 @@ public class AssociadosServices {
     }
 
     @Transactional
-    public AssociadosResponseDto editarAssociado(Long id, AssociadosRequestDto dto){
-        Associados associados=repository.findById(id).orElseThrow(()->new IdNaoEncontrado("Id não encontrado"));
-        mapper.updateEntityFromDto(dto,associados);
-        Associados atualizado=repository.save(associados);
-        return mapper.toRespondeDto(atualizado);
+    public AssociadosResponseDto editarAssociado(Long id, AssociadosRequestDto dto) {
+        // Busca o associado existente
+        Associados associados = repository.findById(id)
+                .orElseThrow(() -> new IdNaoEncontrado("Id não encontrado"));
+
+        // Verifica se o CPF informado já existe em outro associado
+        Optional<Associados> cpfExistente = repository.findByCpf(dto.getCpf());
+        if (cpfExistente.isPresent() && !cpfExistente.get().getId().equals(id)) {
+            throw new CpfDuplicadoException("CPF já cadastrado para outro associado");
+        }
+
+        // Atualiza os campos usando o mapper
+        mapper.updateEntityFromDto(dto, associados);
+
+        // Salva novamente no banco
+        Associados atualizado = repository.save(associados);
+
+        // Retorna o DTO de resposta
+        return mapper.toResponseDto(atualizado);
     }
 
 }

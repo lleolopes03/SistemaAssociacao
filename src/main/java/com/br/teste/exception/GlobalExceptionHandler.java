@@ -13,6 +13,7 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(IdNaoEncontrado.class)
     public ResponseEntity<ApiError>handlerIdNaoEncontrado(IdNaoEncontrado ex){
         ApiError error=new ApiError(
                 HttpStatus.NOT_FOUND.value(),
@@ -21,6 +22,7 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+    @ExceptionHandler(CpfJaCadastrado.class)
     public ResponseEntity<ApiError>handlerCpfJaCadastrado(CpfJaCadastrado ex){
         ApiError error=new ApiError(
                 HttpStatus.CONFLICT.value(),
@@ -29,6 +31,7 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
+    @ExceptionHandler(CpfNaoEncontrado.class)
     public ResponseEntity<ApiError>handlerCpfNaoEncontrado(CpfNaoEncontrado ex){
         ApiError error=new ApiError(
                 HttpStatus.NOT_FOUND.value(),
@@ -48,5 +51,16 @@ public class GlobalExceptionHandler {
         });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
+    @ExceptionHandler(CpfDuplicadoException.class)
+    public ResponseEntity<ApiError>handlerCpfDuplicado(CpfDuplicadoException ex){
+        ApiError error=new ApiError(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+
+    }
+
 
 }

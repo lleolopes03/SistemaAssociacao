@@ -32,5 +32,6 @@ public class Associados {
     @Column(nullable = false)
     @PastOrPresent
     private LocalDate dataAdesao;
+    @Column(nullable = false)
     private boolean ativo;
 }

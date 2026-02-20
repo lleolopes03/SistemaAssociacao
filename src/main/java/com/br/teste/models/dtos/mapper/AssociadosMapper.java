@@ -12,7 +12,7 @@ public interface AssociadosMapper {
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "ativo",constant = "true")
     Associados toEntity(AssociadosRequestDto dto);
-    AssociadosResponseDto toRespondeDto(Associados entity);
+    AssociadosResponseDto toResponseDto(Associados entity);
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "ativo",ignore = true)
     void updateEntityFromDto(AssociadosRequestDto dto, @MappingTarget Associados entity);
