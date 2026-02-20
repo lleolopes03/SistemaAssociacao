@@ -1,4 +1,4 @@
-package com.br.teste.serviceTeste;
+package com.br.teste.service;
 
 
 import com.br.teste.exception.CpfJaCadastrado;
@@ -8,7 +8,6 @@ import com.br.teste.models.dtos.AssociadosRequestDto;
 import com.br.teste.models.dtos.AssociadosResponseDto;
 import com.br.teste.models.dtos.mapper.AssociadosMapper;
 import com.br.teste.repository.AssociadosRepository;
-import com.br.teste.service.AssociadosServices;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,7 +74,7 @@ class AssociadosServicesTest {
         when(repository.existsByCpf(requestDto.getCpf())).thenReturn(false);
         when(mapper.toEntity(requestDto)).thenReturn(associado);
         when(repository.save(associado)).thenReturn(associado);
-        when(mapper.toRespondeDto(associado)).thenReturn(responseDto);
+        when(mapper.toResponseDto(associado)).thenReturn(responseDto);
 
         AssociadosResponseDto resultado = services.salvar(requestDto);
 
